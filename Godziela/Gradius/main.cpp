@@ -277,24 +277,31 @@ void UpdateGame(void)
 		if (!pause)
 		{
 			// Player logic: rotation
-			if (IsKeyDown(KEY_LEFT)) player.rotation -= 5;
-			if (IsKeyDown(KEY_RIGHT)) player.rotation += 5;
+			if (IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A))
+			{
+				player.rotation -= 5;
+				if (player.acceleration > 0.5) player.acceleration -= 0.02f;
+			}
+			if (IsKeyDown(KEY_RIGHT)|| IsKeyDown(KEY_D)) 
+			{
+				player.rotation += 5;
+				if (player.acceleration > 0.5) player.acceleration -= 0.02f;
+			}
 
 			// Player logic: speed
 			player.speed.x = sin(player.rotation*DEG2RAD)*PLAYER_SPEED;
 			player.speed.y = cos(player.rotation*DEG2RAD)*PLAYER_SPEED;
 
 			// Player logic: acceleration
-			if (IsKeyDown(KEY_UP))
+			if (IsKeyDown(KEY_UP) || IsKeyDown(KEY_W))
 			{
 				if (player.acceleration < 1) player.acceleration += 0.04f;
 			}
 			else
 			{
-				if (player.acceleration > 0) player.acceleration -= 0.02f;
-				else if (player.acceleration < 0) player.acceleration = 0;
+				if (player.acceleration < 0) player.acceleration = 0;
 			}
-			if (IsKeyDown(KEY_DOWN))
+			if (IsKeyDown(KEY_DOWN)|| IsKeyDown(KEY_S))
 			{
 				if (player.acceleration > 0) player.acceleration -= 0.04f;
 				else if (player.acceleration < 0) player.acceleration = 0;
